@@ -2,6 +2,7 @@ using PoupaDev.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using PoupaDev.API.Context;
 using PoupaDev.API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace PoupaDev.API.Controllers
 {
@@ -28,7 +29,10 @@ namespace PoupaDev.API.Controllers
     [HttpGet("{id}")]
     public IActionResult GetPorId(int id)
     {
-      var objetivo = _context.Objetivos.SingleOrDefault(o => o.Id == id);
+      var objetivo = _context
+      .Objetivos
+      .Include(o => o.Operacoes)
+      .SingleOrDefault(o => o.Id == id);
 
       if (objetivo == null)
       {
@@ -47,6 +51,7 @@ namespace PoupaDev.API.Controllers
         dto.ValorObjetivo);
 
       _context.Objetivos.Add(objetivo);
+      _context.SaveChanges();
 
       var id = objetivo.Id;
 
@@ -59,9 +64,13 @@ namespace PoupaDev.API.Controllers
     {
       var operacao = new Operacao(
               dto.Valor,
-              dto.TipoOperacao);
+              dto.TipoOperacao,
+              id);
 
-      var objetivo = _context.Objetivos.SingleOrDefault(o => o.Id == id);
+      var objetivo = _context
+      .Objetivos
+      .Include(o => o.Operacoes)
+      .SingleOrDefault(o => o.Id == id);
 
       if (objetivo == null)
       {
@@ -69,6 +78,7 @@ namespace PoupaDev.API.Controllers
       }
 
       objetivo.RealizarOperacao(operacao);
+      _context.SaveChanges();
 
       return NoContent();
     }
