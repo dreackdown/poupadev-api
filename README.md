@@ -10,6 +10,7 @@ Foi desenvolvida uma API REST completa de gerenciamento de objetivos financeiros
 - Injeção de Dependência
 - Programação Orientada a Objetos
 - Hosted Services
+- Docker
 
 ## Funcionalidades
 - Cadastro, Listagem, Detalhes de Objetivo Financeiro
