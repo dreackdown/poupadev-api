@@ -7,7 +7,6 @@ namespace PoupaDev.API.Context
   {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-
     }
 
     public DbSet<ObjetivoFinanceiro> Objetivos { get; set; }
